@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -15,8 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import br.com.climao.ui.components.ButtonPadrao
 import br.com.climao.ui.components.Cabecalho
 import br.com.climao.ui.components.Cartao
@@ -54,13 +57,20 @@ fun ResultadoBusca(navController: NavHostController) {
                 Spacer(modifier = Modifier.height(20.dp))
                 Cartao(titulo = "Velocidade do Vento", resultado = ("$ventoState m/s"))
                 Spacer(modifier = Modifier.height(70.dp))
-                ButtonPadrao(
+
+                OutlinedButton(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    texto = "Voltar",
-                    rota = "inicial",
-                    navController,
-                    onClick
+                    onClick = {
+                        navController.navigate("inicial")
+                    },
+                    content = {
+                        ButtonPadrao(
+                            modifier = Modifier,
+                            texto = "Voltar"
+                        )
+                    }
                 )
+
             }
 
 
@@ -69,9 +79,9 @@ fun ResultadoBusca(navController: NavHostController) {
 
     }
 }
-//
-//@Preview
-//@Composable
-//private fun ResultadoBuscaPreview() {
-//    ResultadoBusca(navController)
-//}
+
+@Preview
+@Composable
+private fun ResultadoBuscaPreview() {
+    ResultadoBusca(navController = rememberNavController())
+}

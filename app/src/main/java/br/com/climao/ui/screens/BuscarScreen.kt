@@ -1,5 +1,8 @@
 package br.com.climao.ui.screens
 
+import android.util.Log
+import android.widget.Button
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -7,10 +10,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -25,17 +32,28 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import br.com.climao.model.Climao
+import br.com.climao.service.RetrofitFactory
 import br.com.climao.ui.components.ButtonPadrao
 import br.com.climao.ui.components.Cabecalho
 import br.com.climao.ui.components.Titulo
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BuscarScreen(navController: NavHostController ) {
     var search by remember {
         mutableStateOf("")
+    }
+    var listSearch by remember {
+        mutableStateOf(Climao())
     }
 
     Box(
@@ -79,12 +97,42 @@ fun BuscarScreen(navController: NavHostController ) {
 
             Spacer(modifier = Modifier.height(50.dp))
 
-            ButtonPadrao(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                texto = "Buscar",
-                rota = "resultado",
-                navController
+            OutlinedButton(
+                onClick = {
+
+                    if(search.isNotEmpty()){
+                        val call = RetrofitFactory()
+                            .getClimaService()
+                            .getClimaByName(cityName = search)
+                        call.enqueue(object : Callback<Climao>{
+                            override fun onResponse(
+                                call: Call<Climao>,
+                                response: Response<Climao>
+                            ) {
+                                Log.i("Atenção", "onResponse: ${response.body()}")
+                                listSearch = response.body()!!
+
+                            }
+
+                            override fun onFailure(call: Call<Climao>, t: Throwable) {
+                                Log.i("Atenção", "Erro na busca: ${t.message}")
+                            }
+                        })
+                        navController.navigate("resultado")
+                    }
+                },
+                content = {
+                    ButtonPadrao(
+                        modifier = Modifier,
+                        texto = "Buscar",
+
+                    )
+                },
+               modifier = Modifier
+                   .align(Alignment.CenterHorizontally),
+                border = BorderStroke(0.8.dp, Color(0x00EFEFEF))
             )
+
 
         }
     }
