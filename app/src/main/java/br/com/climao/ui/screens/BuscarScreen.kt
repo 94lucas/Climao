@@ -45,6 +45,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import kotlin.math.roundToLong
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,14 +112,23 @@ fun BuscarScreen(navController: NavHostController ) {
                             ) {
                                 Log.i("Atenção", "onResponse: ${response.body()}")
                                 listSearch = response.body()!!
+                                val teste: Climao = listSearch
 
+                                val tempKel: Double? =  teste.main?.temp
+                                val tempCel: Long = (tempKel?.minus(273.15))!!.roundToLong()
+
+                                navController.navigate(
+                                    "resultado/${tempCel}/${teste.wind?.speed}"
+                                )
                             }
 
                             override fun onFailure(call: Call<Climao>, t: Throwable) {
                                 Log.i("Atenção", "Erro na busca: ${t.message}")
                             }
                         })
-                        navController.navigate("resultado")
+
+                        //Climao(main=Main(temp=302.8), wind=Wind(speed=4.63))
+
                     }
                 },
                 content = {

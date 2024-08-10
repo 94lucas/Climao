@@ -1,5 +1,7 @@
 package br.com.climao.ui.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,17 +18,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import br.com.climao.ui.components.ButtonPadrao
 import br.com.climao.ui.components.Cabecalho
 import br.com.climao.ui.components.Cartao
 import br.com.climao.ui.components.Titulo
 
+@SuppressLint("DefaultLocale")
 @Composable
-fun ResultadoBusca(navController: NavHostController) {
+fun ResultadoBusca(navController: NavHostController, temp: String, speed: String) {
     val tamanhoState by remember {
         mutableStateOf("")
     }
@@ -53,13 +54,15 @@ fun ResultadoBusca(navController: NavHostController) {
                     .align(Alignment.CenterHorizontally)
                     .padding(top = 50.dp),
             ){
-                Cartao(titulo = "Tamanho", resultado = ("$tamanhoState m"))
+                Cartao(titulo = "temperature", resultado = ("${temp}ºC"))
                 Spacer(modifier = Modifier.height(20.dp))
-                Cartao(titulo = "Velocidade do Vento", resultado = ("$ventoState m/s"))
+                Cartao(titulo = "Velocidade do Vento", resultado = ("$speed m/s"))
                 Spacer(modifier = Modifier.height(70.dp))
 
                 OutlinedButton(
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    border = BorderStroke(0.8.dp, Color(0x00EFEFEF)),
                     onClick = {
                         navController.navigate("inicial")
                     },
@@ -80,8 +83,8 @@ fun ResultadoBusca(navController: NavHostController) {
     }
 }
 
-@Preview
-@Composable
-private fun ResultadoBuscaPreview() {
-    ResultadoBusca(navController = rememberNavController())
-}
+//@Preview
+//@Composable
+//private fun ResultadoBuscaPreview() {
+//    ResultadoBusca(navController = rememberNavController(), listaPesquisa = String)
+//}

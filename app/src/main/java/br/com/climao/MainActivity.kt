@@ -33,7 +33,11 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = "inicial"){InicialScreen(navController)}
                         composable(route = "busca"){ BuscarScreen(navController)}
-                        composable("resultado"){ ResultadoBusca(navController)}
+                        composable("resultado/{temp}/{speed}"){
+                            val temp: String? = it.arguments?.getString("temp", "")
+                            val speed: String? = it.arguments?.getString("speed", "")
+                            ResultadoBusca(navController, temp!!, speed!!)
+                        }
                     }
                 }
             }
