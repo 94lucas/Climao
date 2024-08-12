@@ -6,8 +6,9 @@ Consulta por Localização: Os usuários podem inserir o nome de uma cidade ou c
 Informações Detalhadas: O aplicativo exibe a altura das ondas e a velocidade do vento, além de outros dados climáticos, como temperatura, umidade e pressão.
 Interface com Jetpack Compose: O aplicativo foi desenvolvido utilizando Jetpack Compose, proporcionando uma interface de usuário moderna e reativa.
 API OpenWeatherMap: Integração com a API OpenWeatherMap para obter dados climáticos em tempo real.
-**Tecnologias Utilizadas
-**
+
+**Tecnologias Utilizadas**
+
 Kotlin: Linguagem principal utilizada para o desenvolvimento do aplicativo.
 Jetpack Compose: Framework para construção de interfaces de usuário nativas no Android.
 MVVM (Model-View-ViewModel): Arquitetura utilizada para manter a separação de preocupações e facilitar a manutenção do código.
